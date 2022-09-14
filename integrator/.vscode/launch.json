@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringInjector<integrator>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.edson.SpringInjector",
+            "projectName": "integrator",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

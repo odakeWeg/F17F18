@@ -1,0 +1,16 @@
+ <root>
+	 <communication step="1" name="produto" portName="COM4" baudRate="57600" dataBits="8" stopBits="1" parity="EVEN" timeout="1000" protocol="modbus"/>
+	 <test step="4" id="1" name="leitura de corrente">
+		<write step="5" address="1" registers="1,2,3" timeOut="10" waitBefore="1" waitAfter="1"/>
+		<feedback step="6" v2="true" communication="2" write="1,2,3" signal="1,1,1"/>
+		<read step="7" address="1" registers="1,2,3" timeOut="10" waitBefore="1" waitAfter="1"/>
+		<read step="8" address="2" registers="1,2,3" timeOut="10" waitBefore="1" waitAfter="1"/>
+		<compare step="9" reference="KRON" measure="produto" referenceRegisters="1,2,3" measureRegisters="1,2,3" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		<calculate step="10" v2="true"/>
+		<noattr step="11"/>
+	 </test>
+	 <test step="12" id="2" name="parametrizacao">
+	 
+	 
+	 </test>
+ </root>

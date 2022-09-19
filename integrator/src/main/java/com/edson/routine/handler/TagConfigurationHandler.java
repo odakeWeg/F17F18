@@ -46,7 +46,7 @@ public class TagConfigurationHandler {
 
         switch (node.getNodeName()) {
             case "communication":
-                currentTestResult = startConnectionCommand(getAttributeString("name" , node), getAttributeString("portName" , node), getAttributeInt("baudRate" , node), getAttributeInt("dataBits" , node), getAttributeInt("stopBits" , node), getAttributeString("parity" , node), getAttributeInt("timeout" , node), getAttributeString("protocol" , node));
+                currentTestResult = startConnectionCommand(getAttributeString("name" , node), getAttributeString("portName" , node), getAttributeInt("baudRate" , node), getAttributeInt("dataBits" , node), getAttributeInt("stopBits" , node), getAttributeString("parity" , node), getAttributeInt("timeout" , node), getAttributeString("protocol" , node), getAttributeInt("address" , node));
                 resultSequence.put(getAttributeInt("step", node), currentTestResult);
                 break;
             case "test":
@@ -100,18 +100,22 @@ public class TagConfigurationHandler {
         float targetData = testDataTreeHandler.getStepData(targetStep);
         float referenceData = testDataTreeHandler.getStepData(referenceStep);
 
-        float error = Math.abs(targetData - referenceData)/targetData;
+        float error = Math.abs(targetData - referenceData)/targetData*100;
         boolean isInTolerance = error < tolerancyPercentage[0];
 
+        readString[0] = Float.toString(targetData); 
+        tagPath = endTag; //concatenateStrings("compareImprob", endTag);
+        testDataTreeHandler.appendItem(tagPath, attributeName, readString);
+
         if(!isInTolerance) {
+            System.out.println("----------------------- Falha no teste de comparação! -----------------------");
+            System.out.println("Target step: " + targetStep);
+            System.out.println("Value read: " + targetData);
+            System.out.println("Value expected: " + referenceData);
             return "ERROR";
         }
 
-        readString[0] = Float.toString(targetData); 
-        tagPath = concatenateStrings("compareImprob", endTag);
-        testDataTreeHandler.appendItem(tagPath, attributeName, readString);
-
-        testDataTreeHandler.printData();
+        //testDataTreeHandler.printData();
 
         return "approved";
     }
@@ -129,13 +133,17 @@ public class TagConfigurationHandler {
         float error = Math.abs(targetData - value);
         boolean isInTolerance = error < tolerance[0];
 
-        if(!isInTolerance) {
-            return "ERROR";
-        }
-
         readString[0] = Float.toString(targetData); 
         tagPath = endTag; //concatenateStrings("compareImprob", endTag);
         testDataTreeHandler.appendItem(tagPath, attributeName, readString);
+
+        if(!isInTolerance) {
+            System.out.println("----------------------- Falha no teste de verificação! -----------------------");
+            System.out.println("Target step: " + targetStep);
+            System.out.println("Value read: " + targetData);
+            System.out.println("Value expected: " + value);
+            return "ERROR";
+        }
 
         return "approved";
     }
@@ -166,7 +174,7 @@ public class TagConfigurationHandler {
 
         Register[] readings = new Register[registers.length];
         ComunicacaoSerial readComm = testDataTreeHandler.getCommunication(communicationName);
-        readComm.getSerialModbusCommunication().setUnitID((short) address);
+        //readComm.getSerialModbusCommunication().setUnitID((short) address);
         for (int i = 0; i < registers.length; i++) {
             readings[i] = readComm.getSerialModbusCommunication().readHoldingRegisters((short) registers[i], (short) 1)[0];
             readString[i] = Integer.toString(readings[i].intValue());
@@ -174,6 +182,16 @@ public class TagConfigurationHandler {
 
         tagPath = endTag; //concatenateStrings(communicationName, endTag);
         testDataTreeHandler.appendItem(tagPath, attributeName, readString);
+
+        //@TestingCode
+        try {
+            //System.out.println("3000 waiting...");
+            TimeUnit.SECONDS.sleep(1);
+            //System.out.println("3000 waited");
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return "approved";
     }
@@ -197,23 +215,33 @@ public class TagConfigurationHandler {
         tagPath = endTag; //concatenateStrings(communicationName, endTag);
         testDataTreeHandler.appendItem(tagPath, attributeName, writeString);
 
+        //@TestingCode
+        try {
+            //System.out.println("3000 waiting...");
+            TimeUnit.SECONDS.sleep(1);
+            //System.out.println("3000 waited");
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return "approved";
     }
 
     private String setTestNameCommand(String name) {
         //@TestingCode
-        testDataTreeHandler.printData();
+        //testDataTreeHandler.printData();
         testDataTreeHandler.setTestName(name);
         return "pass";
     }
     //@ERROR: comunicacaoSerial.add adiciona infinicamente
     //@TODO: Verificar o melhor jeito de tratar o exception -> dentro dessa função ou dentro da classe
-    private String startConnectionCommand(String name, String portName, int baudRate, int dataBits, int stopBits, String parity, int timeout, String protocol) throws NegativeConfirmationException, ModbusExceptionResponseException, ModbusUnexpectedResponseException {
+    private String startConnectionCommand(String name, String portName, int baudRate, int dataBits, int stopBits, String parity, int timeout, String protocol, int address) throws NegativeConfirmationException, ModbusExceptionResponseException, ModbusUnexpectedResponseException {
         System.out.println("startConnectionCommand");
         switch (protocol) {
             case "modbus":
                 String[] data = {protocol, name};
-                ComunicacaoSerial comunicacaoSerial = new ComunicacaoSerial(portName, baudRate, dataBits, stopBits, parity, timeout);
+                ComunicacaoSerial comunicacaoSerial = new ComunicacaoSerial(portName, baudRate, dataBits, stopBits, parity, timeout, address);
                 testDataTreeHandler.appendCommunication(comunicacaoSerial, data);
                 break;
             default:

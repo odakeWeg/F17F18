@@ -112,11 +112,13 @@ public class TestDataTreeHandler {
         String[] tag = {"communication"};
         String[] attrName = {"protocol", "name", "index"};
         String[] index = {"0"};
-        String[] dataBuffer = Stream.concat(Arrays.stream(data), Arrays.stream(index)).toArray(String[]::new);
+        String[] dataBuffer;
 
         if(!comunicacaoSerial.isEmpty()) {
             index[0] = Integer.toString(comunicacaoSerial.size());
         }
+
+        dataBuffer = Stream.concat(Arrays.stream(data), Arrays.stream(index)).toArray(String[]::new);
         
         appendItem(tag, attrName, dataBuffer);
 
@@ -164,7 +166,8 @@ public class TestDataTreeHandler {
     }
 
     public float getStepData(int step) {
-        printData();
+        //@TestingCode
+        //printData();
         Element element = document.getElementById(Integer.toString(step));
         float data = Float.parseFloat(element.getAttribute("data"));
         return data;

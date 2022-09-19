@@ -1,0 +1,57 @@
+ <root>
+	 <test step="0" id="0" name="modbus">
+		<communication step="1" id="1" name="produto" address="1" portName="COM4" baudRate="57600" dataBits="8" stopBits="1" parity="EVEN" timeout="1000" protocol="modbus"/>
+		<communication step="2" id="2" name="giga" address="2" portName="COM4" baudRate="57600" dataBits="8" stopBits="1" parity="EVEN" timeout="1000" protocol="modbus"/>
+	 </test>
+	 <test step="3" id="3" name="statusDoSensor">
+		<read step="4" id="4" communicationName="produto" address="1" registers="29" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<verify step="5" id="5" targetStep="4" measureScale="1" value="2050" tolerance="1"/>
+	 </test>
+	 <test step="6" id="6" name="leituraDeParametros">
+		<read step="7" id="7" communicationName="giga" address="1" registers="0" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="8" id="8" communicationName="produto" address="1" registers="0" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="9" id="9" referenceStep="7" targetStep="8" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="10" id="7" communicationName="giga" address="1" registers="1" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="11" id="8" communicationName="produto" address="1" registers="1" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="12" id="9" referenceStep="10" targetStep="11" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="13" id="7" communicationName="giga" address="1" registers="2" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="14" id="8" communicationName="produto" address="1" registers="2" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="15" id="9" referenceStep="13" targetStep="14" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="16" id="7" communicationName="giga" address="1" registers="12" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="17" id="8" communicationName="produto" address="1" registers="12" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="18" id="9" referenceStep="16" targetStep="17" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="19" id="7" communicationName="giga" address="1" registers="13" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="20" id="8" communicationName="produto" address="1" registers="13" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="21" id="9" referenceStep="19" targetStep="20" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="22" id="7" communicationName="giga" address="1" registers="14" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="23" id="8" communicationName="produto" address="1" registers="14" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="24" id="9" referenceStep="22" targetStep="23" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+		<read step="25" id="7" communicationName="giga" address="1" registers="15" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<read step="26" id="8" communicationName="produto" address="1" registers="15" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<compare step="27" id="9" referenceStep="25" targetStep="26" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		
+	</test>
+	<test step="28" id="10" name="gravaMac">
+		<write step="29" id="11" communicationName="produto" address="1" registers="10000" value="51966" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<write step="30" id="12" communicationName="produto" address="1" registers="10000" value="64202" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<write step="31" id="13" communicationName="produto" address="1" registers="10000" value="1234" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<write step="32" id="14" communicationName="produto" address="1" registers="10000" value="5678" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<write step="33" id="15" communicationName="produto" address="1" registers="10000" value="900" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		
+		<read step="34" id="4" communicationName="produto" address="1" registers="105" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<verify step="35" id="5" targetStep="34" measureScale="1" value="1234" tolerance="1"/>
+		
+		<read step="36" id="4" communicationName="produto" address="1" registers="106" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<verify step="37" id="5" targetStep="36" measureScale="1" value="5678" tolerance="1"/>
+		
+		<read step="38" id="4" communicationName="produto" address="1" registers="107" timeOut="10" waitBefore="1" waitAfter="1000"/>
+		<verify step="39" id="5" targetStep="38" measureScale="1" value="910" tolerance="1"/>
+		
+	 </test>
+ </root>

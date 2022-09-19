@@ -8,7 +8,7 @@
 		<feedback step="6" v2="true" communication="2" write="1,2,3" signal="1,1,1"/>
 		<read id="7" step="7" communicationName="produto" address="1" startRegister="0" registers="1" timeOut="10" waitBefore="1" waitAfter="1"/>
 		<read id="8" step="8" communicationName="produto" address="2" startRegister="0" registers="1" timeOut="10" waitBefore="1" waitAfter="1"/>
-		<compare step="9" referenceStep="1" targetStep="2" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
+		<compare step="9" referenceStep="3" targetStep="3" tolerancyPercentage="5,10,3" referenceScale="10" measureScale="3"/>
 		<calculate step="10" v2="true"/>
 		<noattr step="11"/>
 	 </test>

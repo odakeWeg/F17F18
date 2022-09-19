@@ -17,7 +17,7 @@ public class ComunicacaoSerial extends BaseCommunication {
 
 	//@TODO: Change address connection string from 1 to 0
 	//@TODO: Check if using the constructor to configure is good practice
-	public ComunicacaoSerial(String portName, int baudRate, int dataBits, int stopBits, String parity, int timeout) {
+	public ComunicacaoSerial(String portName, int baudRate, int dataBits, int stopBits, String parity, int timeout, int address) {
 		//@TODO: Use XML or Util class to identify dinamically the hostAddress and the port of Wcomm
 		//@TODO: Verify if closePor() is necessary 
 		if (this.serialSettings != null) {
@@ -29,7 +29,10 @@ public class ComunicacaoSerial extends BaseCommunication {
 			serialModbusCommunication.connect();
 			//@TestingCode
 			//serialModbusCommunication.subscribeClient("Serial/COM4/Modbus-RTU/@1#57600#8#1#EVEN#0#50#1000#40");
-			serialModbusCommunication.subscribeClient("Serial/"+ portName + "/Modbus-RTU/@1#" + baudRate + "#" + dataBits + "#" + stopBits + "#" + parity + "#0#50#" + timeout + "#40");
+			serialModbusCommunication.subscribeClient("Serial/"+ portName + "/Modbus-RTU/@" + address+ "#" + baudRate + "#" + dataBits + "#" + stopBits + "#" + parity + "#0#50#" + timeout + "#40");
+			//serialModbusCommunication.subscribeClient("Serial/"+ portName + "/Modbus-RTU/@2#" + baudRate + "#" + dataBits + "#" + stopBits + "#" + parity + "#0#50#" + timeout + "#40");
+			//@TestingCode
+			//serialModbusCommunication.setUnitID((short) 1);
 		} catch (Exception e) {
 			//@TODO: Implement something if necessary (probably is)
 			e.printStackTrace();

@@ -47,6 +47,9 @@ public class TestRoutine extends Thread{
             e.printStackTrace();
         }
         //afterTestConfiguration();
+
+        //@TestingCode
+        System.out.println("teste finalizado");
     }
 
     private void setDependencies() throws ParserConfigurationException {
@@ -65,7 +68,7 @@ public class TestRoutine extends Thread{
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         //@TestingCode
-        File file = new File(ViewConfigurationPathUtil.TEST_ROUTINE_PATH + "foo.xml");
+        File file = new File(ViewConfigurationPathUtil.TEST_ROUTINE_PATH + "modbus.xml");
         //File file = new File(TEST_ROUTINE_PATH + SapTestDataInstanceUtil.dados.getFamily() + ":" + SapTestDataInstanceUtil.dados.getCurrent() + "A" + ".xml");
         Document document = docBuilder.parse(file);
         return document;
@@ -82,7 +85,8 @@ public class TestRoutine extends Thread{
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
-            if (tagConfigurationHandler.executeTagFunction(currentNode) != "error" && stopInError) {
+            //@TestingCode
+            if ((tagConfigurationHandler.executeTagFunction(currentNode) != "error" && stopInError) || true) {
                 if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                     initiateTestRoutine(currentNode, stopInError);
                 }

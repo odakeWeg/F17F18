@@ -8,7 +8,7 @@ import org.xml.sax.SAXException;
 
 import com.edson.App;
 import com.edson.controller.test.TestRoutine;
-import com.edson.util.ConfigurationPathUtil;
+import com.edson.util.ViewConfigurationPathUtil;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,11 +19,12 @@ public class AutomatedTestController {
 
     @FXML
     private void switchToMainScreen() throws IOException {
-        App.setRoot(ConfigurationPathUtil.viewPath + "mainScreen");
+        App.setRoot(ViewConfigurationPathUtil.VIEW_PATH + "mainScreen");
     }
     @FXML
     private void startTest() throws IOException, ParserConfigurationException, SAXException, InterruptedException, ExecutionException {
         //@TODO: Usar serviço ao invés de fazer tudo no controller
+        //@TODO: Move serialReading inssede the thread
         //serialReading();
         
         TestRoutine testThread = new TestRoutine();  
@@ -32,7 +33,7 @@ public class AutomatedTestController {
 
     private void serialReading() throws IOException {
         //@TODO: Desabilitar interação com tela anterior ao abrir tela nova
-        Scene scene = new Scene(App.loadFXML(ConfigurationPathUtil.viewPath + "serialReading"));
+        Scene scene = new Scene(App.loadFXML(ViewConfigurationPathUtil.VIEW_PATH + "serialReading"));
 
         Stage window = new Stage();
         window.setScene(scene);

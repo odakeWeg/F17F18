@@ -1,10 +1,12 @@
 package com.edson.communication;
 
+import net.weg.wcomm.modbus.Register;
 import net.weg.wcomm.modbus.tcp.client.ModbusTCPHelper;
 import net.weg.wcomm.modbus.tcp.client.ModbusTCPMaster;
 import net.weg.wcomm.serial.SComm;
 
 //@TODO: Implementar métodos de verificações -> atualmente essa classe é inútil
+//@TODO: Implement Specific methods -> may require to fragment TagConfigurationHandler into multiple classes
 public class ComunicacaoSerial extends BaseCommunication {
 	private SComm serialSettings;
 	private ModbusTCPHelper serialModbusCommunication;

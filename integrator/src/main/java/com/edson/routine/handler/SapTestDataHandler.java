@@ -1,8 +1,6 @@
-package com.edson.util;
+package com.edson.routine.handler;
 
-//@TODO: Move to Handler
-/* 
-public class SapTestDataUtil {
+public class SapTestDataHandler {
     private long serial;
     private String family;
     private float current;
@@ -27,4 +25,3 @@ public class SapTestDataUtil {
     }
 
 }
-*/

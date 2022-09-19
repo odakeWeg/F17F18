@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.edson.util.ConfigurationPathUtil;
+import com.edson.util.ViewConfigurationPathUtil;
 
 
 /**
@@ -36,7 +36,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML(ConfigurationPathUtil.viewPath + "mainScreen"));
+        scene = new Scene(loadFXML(ViewConfigurationPathUtil.VIEW_PATH + "mainScreen"));
         stage.setScene(scene);
         stage.show();
     }

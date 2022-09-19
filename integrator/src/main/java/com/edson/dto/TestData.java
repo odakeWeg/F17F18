@@ -1,5 +1,7 @@
 package com.edson.dto;
 
+//@TODO: Move to handler
+/* 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -85,3 +87,4 @@ public class TestData {
         }
     }
 }
+*/

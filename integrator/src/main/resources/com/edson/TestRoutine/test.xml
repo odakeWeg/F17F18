@@ -1,1 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><company><employee id="10"><firstname>James</firstname><lastname>Harley</lastname><email>james@example.org</email><department>Human Resources</department></employee></company>
+
+
+<root>
+  <dir1>
+    <dir2>
+      <dir3>
+        <dir4 data="1">
+          <dir44 data="1,2,4,3"/>
+        </dir4>
+        <dir23>
+          <dir5 data="dado,r1"/>
+        </dir23>
+      </dir3>
+    </dir2>
+    <a1>
+      <a2>
+        <a3>
+          <a4 data="1,2,3"/>
+        </a3>
+      </a2>
+      <dir2>
+        <dir3>
+          <dir44 data="1,2,4,3"/>
+        </dir3>
+      </dir2>
+    </a1>
+    <dir3>
+      <dir2>
+        <dir23>
+          <dir5 data="dado,r1"/>
+        </dir23>
+      </dir2>
+      <dir12>
+        <dir3>
+          <dir4 data="dado,1"/>
+        </dir3>
+      </dir12>
+    </dir3>
+    <dir11 data="dado"/>
+  </dir1>
+</root>

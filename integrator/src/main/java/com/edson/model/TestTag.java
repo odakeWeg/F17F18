@@ -111,7 +111,7 @@ public class TestTag {
     // ----------------------------------------------------------
 
     public String getAttribute6() {
-        return attribute1.get();
+        return attribute6.get();
     }
 
     public SimpleStringProperty attribute6Property() {
@@ -126,7 +126,7 @@ public class TestTag {
 
 
 
-    public int gettagStep() {
+    public int getTagStep() {
         return tagStep.get();
     }
 
@@ -134,7 +134,22 @@ public class TestTag {
         return tagStep;
     }
 
-    public void settagStep(int tagStep) {
+    public void setTagStep(int tagStep) {
         this.tagStep.set(tagStep);
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            "command=" + getCommand() +
+            ", attribute1=" + getAttribute1() +
+            ", attribute2=" + getAttribute2() +
+            ", attribute3=" + getAttribute3() +
+            ", attribute4=" + getAttribute4() +
+            ", attribute5=" + getAttribute5() +
+            ", attribute6=" + getAttribute6() +
+            ", tagStep=" + getTagStep() +
+            "}";
+    }
+
 }

@@ -38,4 +38,10 @@ public class TestName {
         this.step.set(step);
     }
 
+
+    @Override
+    public String toString() {
+        return "{name=" + getName() + ", step=" + getStep() + "}";
+    }
+
 }

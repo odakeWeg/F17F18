@@ -1,9 +1,25 @@
 package com.edson.controller;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.edson.App;
 import com.edson.model.TestName;
@@ -178,7 +194,7 @@ public class SettingsController implements Initializable{
             namePane.setVisible(true);
             testPane.setVisible(false);
 
-            System.out.println(testNameTable.getItems().get(0).getName());
+            //System.out.println(testNameTable.getItems().get(0).getName());
         }
         inTestStep = null;
     }
@@ -190,27 +206,129 @@ public class SettingsController implements Initializable{
 
     @FXML
     private void readTag() {
-        tagChoiceMenu.setText("read");;
+        tagChoiceMenu.setText("read");
     }
 
     @FXML
     private void writeTag() {
-        tagChoiceMenu.setText("write");;
+        tagChoiceMenu.setText("write");
     }
 
     @FXML
     private void compareTag() {
-        tagChoiceMenu.setText("compare");;
+        tagChoiceMenu.setText("compare");
     }
 
     @FXML
     private void verifyTag() {
-        tagChoiceMenu.setText("verify");;
+        tagChoiceMenu.setText("verify");
     }
 
     @FXML
     private void communicationTag() {
-        tagChoiceMenu.setText("communication");;
+        tagChoiceMenu.setText("communication");
+    }
+
+
+
+    @FXML
+    private void compile() throws ParserConfigurationException {
+        Document document = createDocument();
+        HashMap<String,String> tagMakerMap;
+        TableView<TestTag> tagTableList = new TableView<>();
+        for (int i = 0; i < testNameTable.getItems().size(); i++) {
+            tagMakerMap = stringToHashMap(testNameTable.getItems().get(i).toString());
+            addNameFromHashMap(document, tagMakerMap);
+            tagTableList.setItems(testProcedureMap.get(Integer.parseInt(tagMakerMap.get("step"))));
+            for (int c = 0; c < tagTableList.getItems().size(); c++) {
+                tagTableList.getItems().get(c).toString();
+                tagMakerMap = stringToHashMap(tagTableList.getItems().get(c).toString());
+                addTagFromHashMap(document, tagMakerMap);
+            }
+        }
+        printData(document);
+        save();
+    }
+
+    private Document createDocument() throws ParserConfigurationException {
+        DocumentBuilderFactory documentFactory;
+        DocumentBuilder documentBuilder;
+        Document document;
+
+        documentFactory = DocumentBuilderFactory.newInstance();
+        documentBuilder = documentFactory.newDocumentBuilder();
+        document = documentBuilder.newDocument();
+
+        Element root;
+        root = document.createElement("root");
+        document.appendChild(root);
+
+        return document;
+    }
+
+    private void addNameFromHashMap(Document document, HashMap<String,String> map) {
+        Element testTagElement;
+        Node node = document.getDocumentElement();
+
+        testTagElement = document.createElement(map.get("name"));
+        node.appendChild(testTagElement);
+
+        map.remove("name");
+        for(HashMap.Entry<String, String> entry : map.entrySet()) {
+            Attr attr;
+
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            attr = document.createAttribute(key);
+            attr.setValue(value);
+            testTagElement.setAttributeNode(attr);
+        }
+    }
+
+    private void addTagFromHashMap(Document document, HashMap<String,String> map) {
+        Element testTagElement;
+        Node node = document.getDocumentElement().getLastChild();
+        Attr attr;
+
+        testTagElement = document.createElement(map.get("command"));
+        node.appendChild(testTagElement);
+
+        attr = document.createAttribute("step");
+        attr.setValue(map.get("tagStep"));
+        testTagElement.setAttributeNode(attr);
+        map.remove("tagStep");
+        map.remove("command");
+
+        for(HashMap.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            String[] pair = value.split(":");
+            key = pair[0].trim();
+            value = pair[1].trim();
+
+            attr = document.createAttribute(key);
+            attr.setValue(value);
+            testTagElement.setAttributeNode(attr);
+        }
+    }
+
+    private void save() {
+
+    }
+
+    private HashMap<String,String> stringToHashMap(String value) {
+        value = value.substring(1, value.length()-1);
+        String[] keyValuePairs = value.split(",");
+        HashMap<String,String> map = new HashMap<>();               
+
+        for(String pair : keyValuePairs) {
+            String[] entry = pair.split("=");
+            map.put(entry[0].trim(), entry[1].trim());
+        }
+
+        return map;
     }
 
 
@@ -224,5 +342,37 @@ public class SettingsController implements Initializable{
         attr4Text.setText("");
         attr5Text.setText("");
         attr6Text.setText("");
+    }
+
+
+
+
+    public void printData(Document document) {
+        System.out.println(prettyPrintByTransformer(document, 2, true));
+    }
+
+    public String prettyPrintByTransformer(/*String*/ Document xmlString, int indent, boolean ignoreDeclaration) {
+        
+        try {
+            //InputSource src = new InputSource(new StringReader(xmlString));
+            //Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(src);
+            Document document = xmlString;
+    
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", indent);
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, ignoreDeclaration ? "yes" : "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    
+            Writer out = new StringWriter();
+            transformer.transform(new DOMSource(document), new StreamResult(out));
+
+            
+            return out.toString();
+        } catch (Exception e) {
+            System.out.println("dentro do printException");
+            throw new RuntimeException("Error occurs when pretty-printing xml:\n" + xmlString, e);
+        }
     }
 }

@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edson.controller.SettingsController">
    <children>
-      <Pane fx:id="testPane" layoutX="5.0" layoutY="7.0" prefHeight="569.0" prefWidth="788.0">
+      <Pane fx:id="testPane" layoutX="5.0" layoutY="7.0" prefHeight="569.0" prefWidth="788.0" visible="false">
          <children>
             <TextField fx:id="attr1Text" layoutX="229.0" layoutY="436.0" prefHeight="25.0" prefWidth="98.0" />
             <Label layoutX="151.0" layoutY="440.0" text="Attributo 1" />
@@ -61,7 +61,7 @@
             </TableView>
          </children>
       </Pane>
-      <Pane fx:id="namePane" layoutX="8.0" layoutY="6.0" prefHeight="569.0" prefWidth="781.0" visible="false">
+      <Pane fx:id="namePane" layoutX="8.0" layoutY="6.0" prefHeight="569.0" prefWidth="781.0">
          <children>
             <TextField fx:id="nameText" layoutX="210.0" layoutY="457.0" prefHeight="25.0" prefWidth="98.0" />
             <Label layoutX="170.0" layoutY="461.0" text="Name" />
@@ -79,6 +79,7 @@
                </columnResizePolicy>
             </TableView>
             <Button layoutX="692.0" layoutY="510.0" mnemonicParsing="false" onAction="#back" text="Back" />
+            <Button layoutX="692.0" layoutY="474.0" mnemonicParsing="false" onAction="#compile" text="Compile" />
          </children>
       </Pane>
    </children>

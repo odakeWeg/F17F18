@@ -9,28 +9,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edson.controller.SettingsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edson.controller.SettingsController">
    <children>
-      <Pane fx:id="testPane" layoutX="5.0" layoutY="7.0" prefHeight="569.0" prefWidth="788.0" visible="false">
+      <Pane fx:id="testPane" layoutX="5.0" layoutY="7.0" prefHeight="569.0" prefWidth="788.0">
          <children>
-            <TextField fx:id="attr1Text" layoutX="229.0" layoutY="436.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="151.0" layoutY="440.0" text="Attributo 1" />
-            <TextField fx:id="attr4Text" layoutX="229.0" layoutY="473.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="151.0" layoutY="477.0" text="Attributo 4" />
-            <TextField fx:id="attr2Text" layoutX="419.0" layoutY="436.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="341.0" layoutY="440.0" text="Attributo 2" />
-            <TextField fx:id="attr5Text" layoutX="419.0" layoutY="473.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="341.0" layoutY="477.0" text="Attributo 5" />
-            <TextField fx:id="attr3Text" layoutX="627.0" layoutY="438.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="549.0" layoutY="442.0" text="Attributo 3" />
-            <TextField fx:id="attr6Text" layoutX="627.0" layoutY="476.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="549.0" layoutY="480.0" text="Attributo 6" />
-            <TextField layoutX="229.0" layoutY="509.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="151.0" layoutY="513.0" text="Attributo 7" />
-            <TextField layoutX="419.0" layoutY="509.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="341.0" layoutY="513.0" text="Attributo 8" />
-            <TextField layoutX="627.0" layoutY="512.0" prefHeight="25.0" prefWidth="98.0" />
-            <Label layoutX="549.0" layoutY="516.0" text="Attributo 9" />
             <Button layoutX="22.0" layoutY="430.0" mnemonicParsing="false" onAction="#adicionar" prefHeight="25.0" prefWidth="98.0" text="Adicionar" />
             <MenuButton fx:id="tagChoiceMenu" layoutX="22.0" layoutY="464.0" mnemonicParsing="false" onAction="#tagChoice" text="read">
                <items>
@@ -44,7 +26,7 @@
             <Button layoutX="73.0" layoutY="498.0" mnemonicParsing="false" onAction="#editar" prefHeight="25.0" prefWidth="47.0" text="Editar" />
             <Button layoutX="38.0" layoutY="530.0" mnemonicParsing="false" onAction="#remover" text="Remover" />
             <Button layoutX="23.0" layoutY="498.0" mnemonicParsing="false" onAction="#back" text="Back" />
-            <TableView fx:id="tagTable" layoutX="10.0" layoutY="6.0" prefHeight="375.0" prefWidth="769.0">
+            <TableView fx:id="tagTable" layoutX="10.0" layoutY="6.0" prefHeight="375.0" prefWidth="1128.0">
                <columns>
                   <TableColumn fx:id="commandCol" prefWidth="75.0" text="Command" />
                   <TableColumn fx:id="attribute1Col" prefWidth="75.0" text="Attribute 1" />
@@ -53,15 +35,80 @@
                   <TableColumn fx:id="attribute4Col" prefWidth="75.0" text="Attribute 4" />
                   <TableColumn fx:id="attribute5Col" prefWidth="75.0" text="Attribute 5" />
                   <TableColumn fx:id="attribute6Col" prefWidth="75.0" text="Attribute 6" />
+                  <TableColumn fx:id="attribute7Col" prefWidth="75.0" text="Attribute 7" />
+                  <TableColumn fx:id="attribute8Col" prefWidth="75.0" text="Attribute 8" />
+                  <TableColumn fx:id="attribute9Col" prefWidth="75.0" text="Attribute 9" />
                   <TableColumn fx:id="tagStepCol" prefWidth="75.0" text="Step" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Pane layoutX="149.0" layoutY="396.0" prefHeight="167.0" prefWidth="599.0">
+               <children>
+                  <Pane fx:id="writePane" layoutX="20.0" layoutY="5.0" prefHeight="148.0" prefWidth="488.0" visible="false">
+                     <children>
+                        <Label layoutX="-43.0" layoutY="14.0" text="communicationName" />
+                        <Label layoutX="14.0" layoutY="51.0" text="timeOut" />
+                        <Label layoutX="204.0" layoutY="14.0" text="registers" />
+                        <Label layoutX="204.0" layoutY="51.0" text="waitBefore" />
+                        <Label layoutX="412.0" layoutY="16.0" text="value" />
+                        <Label layoutX="412.0" layoutY="54.0" text="waitAfter" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="comparePane" layoutX="20.0" layoutY="5.0" prefHeight="148.0" prefWidth="488.0" visible="false">
+                     <children>
+                        <Label layoutX="-6.0" layoutY="14.0" prefHeight="17.0" prefWidth="82.0" text="referenceStep" />
+                        <Label layoutX="-4.0" layoutY="51.0" text="referenceScale" />
+                        <Label layoutX="204.0" layoutY="14.0" text="targetStep" />
+                        <Label layoutX="187.0" layoutY="51.0" text="measureScale" />
+                        <Label layoutX="358.0" layoutY="14.0" text="tolerancyPercentage" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="verifyPane" layoutX="20.0" layoutY="8.0" prefHeight="148.0" prefWidth="488.0" visible="false">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="targetStep" />
+                        <Label layoutX="14.0" layoutY="51.0" text="tolerance" />
+                        <Label layoutX="189.0" layoutY="14.0" text="measureScale" />
+                        <Label layoutX="412.0" layoutY="16.0" text="value" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="communicationPane" layoutX="7.0" layoutY="5.0" prefHeight="148.0" prefWidth="488.0" visible="false">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="name" />
+                        <Label layoutX="14.0" layoutY="51.0" text="baudRate" />
+                        <Label layoutX="204.0" layoutY="14.0" text="address" />
+                        <Label layoutX="204.0" layoutY="51.0" text="dataBits" />
+                        <Label layoutX="412.0" layoutY="16.0" text="portName" />
+                        <Label layoutX="39.0" layoutY="88.0" text="parity" />
+                        <Label layoutX="214.0" layoutY="88.0" text="timeout" />
+                        <Label layoutX="427.0" layoutY="96.0" text="protocol" />
+                        <Label layoutX="422.0" layoutY="60.0" text="stopBits" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="readPane" layoutX="-1.0" prefHeight="167.0" prefWidth="488.0">
+                     <children>
+                        <Label layoutX="-21.0" layoutY="20.0" text="communicationName" />
+                        <Label layoutX="28.0" layoutY="63.0" text="waitBefore" />
+                        <Label layoutX="218.0" layoutY="26.0" text="registers" />
+                        <Label layoutX="218.0" layoutY="63.0" text="waitAfter" />
+                        <Label layoutX="426.0" layoutY="28.0" text="timeOut" />
+                     </children>
+                  </Pane>
+                  <TextField fx:id="attr1Text" layoutX="91.0" layoutY="17.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr4Text" layoutX="91.0" layoutY="54.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr2Text" layoutX="281.0" layoutY="17.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr5Text" layoutX="281.0" layoutY="54.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr3Text" layoutX="489.0" layoutY="19.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr6Text" layoutX="489.0" layoutY="57.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr7Text" layoutX="91.0" layoutY="90.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr8Text" layoutX="281.0" layoutY="90.0" prefHeight="25.0" prefWidth="98.0" />
+                  <TextField fx:id="attr9Text" layoutX="489.0" layoutY="93.0" prefHeight="25.0" prefWidth="98.0" />
+               </children>
+            </Pane>
          </children>
       </Pane>
-      <Pane fx:id="namePane" layoutX="8.0" layoutY="6.0" prefHeight="569.0" prefWidth="781.0">
+      <Pane fx:id="namePane" layoutX="8.0" layoutY="6.0" prefHeight="569.0" prefWidth="781.0" visible="false">
          <children>
             <TextField fx:id="nameText" layoutX="210.0" layoutY="457.0" prefHeight="25.0" prefWidth="98.0" />
             <Label layoutX="170.0" layoutY="461.0" text="Name" />

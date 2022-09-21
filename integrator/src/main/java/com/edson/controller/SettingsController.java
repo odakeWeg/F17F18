@@ -64,6 +64,12 @@ public class SettingsController implements Initializable{
     @FXML
     private TableColumn<TestTag, String> attribute6Col;
     @FXML
+    private TableColumn<TestTag, String> attribute7Col;
+    @FXML
+    private TableColumn<TestTag, String> attribute8Col;
+    @FXML
+    private TableColumn<TestTag, String> attribute9Col;
+    @FXML
     private TableColumn<TestTag, Integer> tagStepCol;
 
     @FXML 
@@ -87,6 +93,23 @@ public class SettingsController implements Initializable{
     private TextField attr5Text;
     @FXML 
     private TextField attr6Text;
+    @FXML 
+    private TextField attr7Text;
+    @FXML 
+    private TextField attr8Text;
+    @FXML 
+    private TextField attr9Text;
+
+    @FXML
+    private Pane communicationPane;
+    @FXML
+    private Pane writePane;
+    @FXML
+    private Pane readPane;
+    @FXML
+    private Pane verifyPane;
+    @FXML
+    private Pane comparePane;
 
 
 
@@ -116,6 +139,9 @@ public class SettingsController implements Initializable{
         attribute4Col.setCellValueFactory(new PropertyValueFactory<>("attribute4"));
         attribute5Col.setCellValueFactory(new PropertyValueFactory<>("attribute5"));
         attribute6Col.setCellValueFactory(new PropertyValueFactory<>("attribute6"));
+        attribute7Col.setCellValueFactory(new PropertyValueFactory<>("attribute7"));
+        attribute8Col.setCellValueFactory(new PropertyValueFactory<>("attribute8"));
+        attribute9Col.setCellValueFactory(new PropertyValueFactory<>("attribute9"));
         tagStepCol.setCellValueFactory(new PropertyValueFactory<>("tagStep"));
         //testNameTable.setItems(nameList());
     }
@@ -140,7 +166,83 @@ public class SettingsController implements Initializable{
             testNameTable.getItems().add(new TestName(nameText.getText(), getAutoId()));
             testProcedureMap.put(id, FXCollections.observableArrayList());
         } else {
-            tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), attr1Text.getText(), attr2Text.getText(), attr3Text.getText(), attr4Text.getText(), attr5Text.getText(), attr6Text.getText(), getAutoId()));
+            String att1;
+            String att2;
+            String att3;
+            String att4;
+            String att5;
+            String att6;
+            String att7;
+            String att8;
+            String att9;
+            String NA;
+            switch (tagChoiceMenu.getText()) {
+                case "read":
+                att1 = "communicationName:" + attr1Text.getText();
+                att2 = "registers:" + attr2Text.getText();
+                att3 = "timeOut:" + attr3Text.getText();
+                att4 = "waitBefore:" + attr4Text.getText();
+                att5 = "waitAfter:" + attr5Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, NA, NA, NA, NA, getAutoId()));
+                break;
+                case "write":
+                att1 = "communicationName:" + attr1Text.getText();
+                att2 = "registers:" + attr2Text.getText();
+                att3 = "value:" + attr3Text.getText();
+                att4 = "timeOut:" + attr4Text.getText();
+                att5 = "waitBefore:" + attr5Text.getText();
+                att6 = "waitAfter:" + attr6Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, att6, NA, NA, NA, getAutoId()));
+                break;
+                case "compare":
+                att1 = "referenceStep:"+ attr1Text.getText();
+                att2 = "targetStep:"+ attr2Text.getText();
+                att3 = "tolerancyPercentage:"+ attr3Text.getText();
+                att4 = "referenceScale:"+ attr4Text.getText();
+                att5 = "measureScale:"+ attr5Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, NA, NA, NA, NA, getAutoId()));
+                break;
+                case "communication":
+                att1 = "name:"+ attr1Text.getText();
+                att2 = "address:"+ attr2Text.getText();
+                att3 = "portName:"+ attr3Text.getText();
+                att4 = "baudRate:"+ attr4Text.getText();
+                att5 = "dataBits:"+ attr5Text.getText();
+                att6 = "stopBits:"+ attr6Text.getText();
+                att7 = "parity:"+ attr7Text.getText();
+                att8 = "timeout:"+ attr8Text.getText();
+                att9 = "protocol:"+ attr8Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, att6, att7, att8, att9, getAutoId()));
+                break;
+                case "verify":
+                att1 = "targetStep:"+ attr1Text.getText();
+                att2 = "measureScale:"+ attr2Text.getText();
+                att3 = "value:"+ attr3Text.getText();
+                att4 = "tolerance:"+ attr4Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, NA, NA, NA, NA, NA, getAutoId()));
+                break;
+                case "variableCompare":
+                att1 = ""+ attr1Text.getText();
+                att2 = ""+ attr2Text.getText();
+                att3 = ""+ attr3Text.getText();
+                att4 = ""+ attr4Text.getText();
+                att5 = ""+ attr5Text.getText();
+                att6 = ""+ attr6Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, NA, NA, NA, NA, getAutoId()));
+                break;
+                default:
+                
+                }
+            
+            //tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), attr1Text.getText(), attr2Text.getText(), attr3Text.getText(), attr4Text.getText(), attr5Text.getText(), attr6Text.getText(), attr7Text.getText(), attr8Text.getText(), attr9Text.getText(), getAutoId()));
+            
+            
         }
         resetTextFields();
     }
@@ -207,26 +309,56 @@ public class SettingsController implements Initializable{
     @FXML
     private void readTag() {
         tagChoiceMenu.setText("read");
+
+        readPane.setVisible(true);
+        writePane.setVisible(false);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(false);
     }
 
     @FXML
     private void writeTag() {
         tagChoiceMenu.setText("write");
+
+        readPane.setVisible(false);
+        writePane.setVisible(true);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(false);
     }
 
     @FXML
     private void compareTag() {
         tagChoiceMenu.setText("compare");
+
+        readPane.setVisible(false);
+        writePane.setVisible(false);
+        comparePane.setVisible(true);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(false);
     }
 
     @FXML
     private void verifyTag() {
         tagChoiceMenu.setText("verify");
+
+        readPane.setVisible(false);
+        writePane.setVisible(false);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(true);
+        communicationPane.setVisible(false);
     }
 
     @FXML
     private void communicationTag() {
         tagChoiceMenu.setText("communication");
+
+        readPane.setVisible(false);
+        writePane.setVisible(false);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(true);
     }
 
 

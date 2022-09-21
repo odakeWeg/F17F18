@@ -14,9 +14,10 @@ public class MainScreenController {
 
     @FXML
     private void switchToSettings() throws IOException, ParserConfigurationException {
+        App.setRoot(ViewConfigurationPathUtil.VIEW_PATH + "settings");
         //@TestingCode
         //App.setRoot(ConfigurationPathUtil.VIEW_PATH + "settings");
-
+        /* 
         String[] tagPath2 = {"a1", "a2", "a3", "dir44"};
         String[] tagPath3 = {"a1", "dir2", "dir3", "dir44"};
         String[] tagPath4 = {"dir3", "dir2", "dir23", "dir5"};
@@ -31,6 +32,7 @@ public class MainScreenController {
         TestDataTreeHandler.setTestName("sec");
         TestDataTreeHandler.appendItem(tagPath2, attr, data);
         TestDataTreeHandler.printData();
+        */
     }
     @FXML
     private void switchToTest() throws IOException {

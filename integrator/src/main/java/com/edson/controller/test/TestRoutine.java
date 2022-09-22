@@ -86,18 +86,18 @@ public class TestRoutine extends Thread{
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
             //@TestingCode
-            if ((tagConfigurationHandler.executeTagFunction(currentNode) != "error" && stopInError) || true) {
+            if ((tagConfigurationHandler.executeTagFunction(currentNode) != "error" && stopInError)) {
                 if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                     initiateTestRoutine(currentNode, stopInError);
                 }
             } else {
-                //displayError();
+                displayError();
             }
         }
     }
 
     private void displayError() {
-        System.out.println("ERRO X");
+        System.out.println("-------------------------------------------------- ERRO!!! --------------------------------------------------");
     }
 
     private void afterTestConfiguration() {

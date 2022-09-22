@@ -25,7 +25,7 @@ import com.edson.routine.handler.TestDataTreeHandlerDeprecated;
 public class TestRoutine extends Thread{
     private TagConfigurationHandler tagConfigurationHandler;
     private SapTestDataHandler sapTestDataHandler;
-    private TestDataTreeHandlerDeprecated TestDataTreeHandler;
+    //private TestDataTreeHandlerDeprecated TestDataTreeHandler;  //Dependencia desnecessária
 
     //@TODO: Configurar se teste completo ou parar na falha
     //@TODO: Disable and enable button to start -> Do this inside thread???
@@ -53,9 +53,9 @@ public class TestRoutine extends Thread{
     }
 
     private void setDependencies() throws ParserConfigurationException {
-        tagConfigurationHandler = new TagConfigurationHandler();
-        sapTestDataHandler = new SapTestDataHandler();
-        TestDataTreeHandler = new TestDataTreeHandlerDeprecated();
+        tagConfigurationHandler = new TagConfigurationHandler(sapTestDataHandler);
+        sapTestDataHandler = new SapTestDataHandler(1234567891, "familia", 450);
+        //TestDataTreeHandler = new TestDataTreeHandlerDeprecated();
     }
 
     private void preTestConfiguration() {

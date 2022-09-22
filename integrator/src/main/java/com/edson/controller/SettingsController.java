@@ -1,5 +1,6 @@
 package com.edson.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -12,6 +13,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -38,6 +41,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
 public class SettingsController implements Initializable{
+
+    public static final String xmlFilePath = "src/main/resources/com/edson/TestRoutine/test02.xml";
 
     //@TODO: Criar controllers separados, lógica muito hardCoded
     @FXML
@@ -110,6 +115,10 @@ public class SettingsController implements Initializable{
     private Pane verifyPane;
     @FXML
     private Pane comparePane;
+    @FXML
+    private Pane variableReadPane;
+    @FXML
+    private Pane variableWritePane;
 
 
 
@@ -146,6 +155,8 @@ public class SettingsController implements Initializable{
         //testNameTable.setItems(nameList());
     }
 
+    //@TestCode -> no use
+    /* 
     private ObservableList<TestName> nameList() {
         return FXCollections.observableArrayList(
             new TestName("name", getAutoId()),
@@ -154,6 +165,7 @@ public class SettingsController implements Initializable{
             new TestName("name", getAutoId())
         );
     }
+    */
 
     @FXML
     private void switchToPrimary() throws IOException {
@@ -226,22 +238,26 @@ public class SettingsController implements Initializable{
                 NA =  "na:na";
                 tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, NA, NA, NA, NA, NA, getAutoId()));
                 break;
-                case "variableCompare":
-                att1 = ""+ attr1Text.getText();
-                att2 = ""+ attr2Text.getText();
-                att3 = ""+ attr3Text.getText();
-                att4 = ""+ attr4Text.getText();
-                att5 = ""+ attr5Text.getText();
-                att6 = ""+ attr6Text.getText();
+                case "variableRead":
+                att1 = "variableName:"+ attr1Text.getText();
                 NA =  "na:na";
-                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, NA, NA, NA, NA, getAutoId()));
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, NA, NA, NA, NA, NA, NA, NA, NA, getAutoId()));
+                break;
+                case "variableWrite":
+                att1 = "communicationName:" + attr1Text.getText();
+                att2 = "registers:" + attr2Text.getText();
+                att3 = "variableName:" + attr3Text.getText();
+                att4 = "timeOut:" + attr4Text.getText();
+                att5 = "waitBefore:" + attr5Text.getText();
+                att6 = "waitAfter:" + attr6Text.getText();
+                NA =  "na:na";
+                tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), att1, att2, att3, att4, att5, att6, NA, NA, NA, getAutoId()));
                 break;
                 default:
                 
                 }
             
-            //tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), attr1Text.getText(), attr2Text.getText(), attr3Text.getText(), attr4Text.getText(), attr5Text.getText(), attr6Text.getText(), attr7Text.getText(), attr8Text.getText(), attr9Text.getText(), getAutoId()));
-            
+            //tagTable.getItems().add(new TestTag(tagChoiceMenu.getText(), attr1Text.getText(), attr2Text.getText(), attr3Text.getText(), attr4Text.getText(), attr5Text.getText(), attr6Text.getText(), attr7Text.getText(), attr8Text.getText(), attr9Text.getText(), getAutoId()));         
             
         }
         resetTextFields();
@@ -315,6 +331,8 @@ public class SettingsController implements Initializable{
         comparePane.setVisible(false);
         verifyPane.setVisible(false);
         communicationPane.setVisible(false);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(false);
     }
 
     @FXML
@@ -326,6 +344,8 @@ public class SettingsController implements Initializable{
         comparePane.setVisible(false);
         verifyPane.setVisible(false);
         communicationPane.setVisible(false);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(false);
     }
 
     @FXML
@@ -337,6 +357,8 @@ public class SettingsController implements Initializable{
         comparePane.setVisible(true);
         verifyPane.setVisible(false);
         communicationPane.setVisible(false);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(false);
     }
 
     @FXML
@@ -348,6 +370,8 @@ public class SettingsController implements Initializable{
         comparePane.setVisible(false);
         verifyPane.setVisible(true);
         communicationPane.setVisible(false);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(false);
     }
 
     @FXML
@@ -359,12 +383,40 @@ public class SettingsController implements Initializable{
         comparePane.setVisible(false);
         verifyPane.setVisible(false);
         communicationPane.setVisible(true);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(false);
+    }
+
+    @FXML
+    private void variableReadTag() {
+        tagChoiceMenu.setText("variableRead");
+
+        readPane.setVisible(false);
+        writePane.setVisible(false);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(false);
+        variableReadPane.setVisible(true);
+        variableWritePane.setVisible(false);
+    }
+
+    @FXML
+    private void variableWriteTag() {
+        tagChoiceMenu.setText("variableWrite");
+
+        readPane.setVisible(false);
+        writePane.setVisible(false);
+        comparePane.setVisible(false);
+        verifyPane.setVisible(false);
+        communicationPane.setVisible(false);
+        variableReadPane.setVisible(false);
+        variableWritePane.setVisible(true);
     }
 
 
 
     @FXML
-    private void compile() throws ParserConfigurationException {
+    private void compile() throws ParserConfigurationException, TransformerException {
         Document document = createDocument();
         HashMap<String,String> tagMakerMap;
         TableView<TestTag> tagTableList = new TableView<>();
@@ -379,7 +431,7 @@ public class SettingsController implements Initializable{
             }
         }
         printData(document);
-        save();
+        save(document);
     }
 
     private Document createDocument() throws ParserConfigurationException {
@@ -402,10 +454,12 @@ public class SettingsController implements Initializable{
         Element testTagElement;
         Node node = document.getDocumentElement();
 
-        testTagElement = document.createElement(map.get("name"));
+        // testTagElement = document.createElement(map.get("name"));
+        //node.appendChild(testTagElement);
+        testTagElement = document.createElement("test");
         node.appendChild(testTagElement);
 
-        map.remove("name");
+        //map.remove("name");
         for(HashMap.Entry<String, String> entry : map.entrySet()) {
             Attr attr;
 
@@ -446,8 +500,13 @@ public class SettingsController implements Initializable{
         }
     }
 
-    private void save() {
+    private void save(Document document) throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource domSource = new DOMSource(document);
+        StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
+        transformer.transform(domSource, streamResult);
     }
 
     private HashMap<String,String> stringToHashMap(String value) {
@@ -474,6 +533,9 @@ public class SettingsController implements Initializable{
         attr4Text.setText("");
         attr5Text.setText("");
         attr6Text.setText("");
+        attr7Text.setText("");
+        attr8Text.setText("");
+        attr9Text.setText("");
     }
 
 

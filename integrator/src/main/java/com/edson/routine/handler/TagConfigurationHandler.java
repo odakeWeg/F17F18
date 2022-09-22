@@ -1,6 +1,7 @@
 package com.edson.routine.handler;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -31,10 +32,13 @@ public class TagConfigurationHandler {
 
     private TestDataTreeHandler testDataTreeHandler;
 
+    private SapTestDataHandler sapTestDataHandler; 
+
     
 
-    public TagConfigurationHandler() throws ParserConfigurationException {
+    public TagConfigurationHandler(SapTestDataHandler sapTestDataHandler) throws ParserConfigurationException {
         testDataTreeHandler = new TestDataTreeHandler();
+        this.sapTestDataHandler = sapTestDataHandler;
     }
 
     public void reset(){
@@ -68,6 +72,15 @@ public class TagConfigurationHandler {
             case "verify":
                 currentTestResult = verifyCommand(getAttributeInt("targetStep" , node), getAttributeInt("measureScale" , node), getAttributeInt("value" , node), getAttributeArray("tolerance" , node));
                 resultSequence.put(getAttributeInt("step", node), currentTestResult);
+                break;
+            case "variableRead":
+                currentTestResult = variableReadCommand(getAttributeString("variableRead" , node));
+                resultSequence.put(getAttributeInt("step", node), currentTestResult);
+                break;
+            case "variableWrite":
+                currentTestResult = variableWriteCommand(getAttributeString("communicationName" , node), getAttributeInt("address" , node), getAttributeArray("registers" , node), getAttributeString("variableWrite" , node), getAttributeInt("timeOut" , node), getAttributeInt("waitBefore" , node), getAttributeInt("waitAfter" , node));
+                resultSequence.put(getAttributeInt("step", node), currentTestResult);
+                break;
             case "pass":
             case "root":
             case "#text":
@@ -251,6 +264,52 @@ public class TagConfigurationHandler {
         return "approved";
     }
 
+    private String variableReadCommand(String variableName) {
+        System.out.println("variableReadCommand");
+        String[] endTag = {"variableRead"};
+        String[] attributeName = {"data"};
+        String[] tagPath;
+
+        String[] variable = {stringToHashMap(sapTestDataHandler.toString()).get(variableName)};
+
+        tagPath = endTag;
+        testDataTreeHandler.appendItem(tagPath, attributeName, variable);
+
+        return "approved";
+    }
+
+    private String variableWriteCommand(String communicationName, int address, int[] registers, String variableName, int timeOut, int waitBefore, int waitAfter) throws NegativeConfirmationException, ModbusExceptionResponseException, ModbusUnexpectedResponseException {
+        System.out.println("variableWriteCommand");
+        String[] endTag = {"variableWrite"};
+        String[] attributeName = {"data"};
+        String[] tagPath;
+        String[] writeString = new String[registers.length];
+        
+        int[] value = {Integer.parseInt(stringToHashMap(sapTestDataHandler.toString()).get(variableName))};
+        ComunicacaoSerial writeComm = testDataTreeHandler.getCommunication(communicationName);
+        for (int i = 0; i < registers.length; i++) {
+            short[] valueArray = {(short) value[i]};
+            writeComm.getSerialModbusCommunication().writeMultipleRegisters((short) registers[i], valueArray);
+
+            writeString[i] = Integer.toString(value[i]);
+        }
+
+        tagPath = endTag; //concatenateStrings(communicationName, endTag);
+        testDataTreeHandler.appendItem(tagPath, attributeName, writeString);
+
+        //@TestingCode
+        try {
+            //System.out.println("3000 waiting...");
+            TimeUnit.SECONDS.sleep(1);
+            //System.out.println("3000 waited");
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return "approved";
+    }
+
     //TypeManipulation
 
     private int getAttributeInt(String attributeName, Node node) {
@@ -295,6 +354,17 @@ public class TagConfigurationHandler {
         return stringConcatenated;
     }
 
-    //Setters and Getters
+    private HashMap<String,String> stringToHashMap(String value) {
+        value = value.substring(1, value.length()-1);
+        String[] keyValuePairs = value.split(",");
+        HashMap<String,String> map = new HashMap<>();               
+
+        for(String pair : keyValuePairs) {
+            String[] entry = pair.split("=");
+            map.put(entry[0].trim(), entry[1].trim());
+        }
+
+        return map;
+    }
     
 }

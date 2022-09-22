@@ -5,6 +5,12 @@ public class SapTestDataHandler {
     private String family;
     private float current;
 
+    public SapTestDataHandler(long serial, String family, float current) {
+        this.serial = serial;
+        this.family = family;
+        this.current = current;
+    }
+
     public long getSerial() {
         return serial;
     }
@@ -23,5 +29,16 @@ public class SapTestDataHandler {
     public void setCurrent(float current) {
         this.current = current;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            "serial=" + getSerial() +
+            ", family=" + getFamily() +
+            ", current=" + getCurrent() +
+            "}";
+    }
+
 
 }
